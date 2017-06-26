@@ -1,0 +1,106 @@
+O documento a seguir mostra de maneira simplificada, como a criação de cada tabela do modelo de dados se dá em relação a sua referência no banco de dados de origem, ou stream de dados. Por exemplo:
+	Tabela1(
+		coluna1 --> Origem1.ID
+	)
+	O exemplo mostra que a coluna1 é ouriunda da coluna "ID" da tabela "Origem1"
+
+Tabelas de dimensão para filtro das tabelas de fatos.
+	`dim_brand` (
+	  `id_brand` --> Auto gerada pelo processo
+	  `name` --> products.brand
+	)
+
+	`dim_seller` (
+	  `id_seller` --> Auto gerada pelo processo
+	  `name` --> products.seller
+	)
+
+	`dim_state_city` (
+	  `id_state_city` --> Auto gerada pelo processo
+	  `sk_state_city` --> Gerada pelo processo, concatenando as colunas state+city, exemplo: "SPSão Paulo"
+	  `state` --> orders.state
+	  `city` --> orders.city
+	)
+
+	`dim_product` (
+	  `id_product` --> Auto gerada pelo processo
+	  `category` --> products.category
+	  `sub_category` --> products.sub_category
+	  `id_brand` --> Gerada pelo processo, referenciada pela coluna "products.brand"
+	  `id_seller` --> Gerada pelo processo, referenciada pela coluna "products.seller"
+	)
+
+A tabela de dim_date é totalmente gerada pelo processo de ETL. Serve para filtrar a fato por data.
+	`dim_date` (
+	  `id_date`
+	  `date`
+	  `year`
+	  `month`
+	  `month_name`
+	  `month_day`
+	  `day_name`
+	  `weekday`
+	  `quarter`
+	)
+
+	Data Início da tabela: "2016-01-01";
+	Data Fim da tabela = "2018-12-31";
+
+
+Tabela de stage utilizada para carregar os dados na tabela fact_orders_quantitative
+	`stage_orders` (
+		order_id --> orders.order_id
+		customer_id --> orders.customer_id
+		total --> orders.total
+		shipping_price --> orders.shipping_price
+		city --> orders.city
+		state --> orders.state
+		status --> orders.status
+		order_date --> orders.order_date
+		last_update --> orders.last_update
+	)
+
+Tabela de stage utilizada para carregar os dados na tabela fact_orders_qualitative
+	`stage_orderitem` (
+		id int --> orderitem.id
+		order_id --> orderitem.order_id
+		product_id --> orderitem.product_id
+		selling_price --> orderitem.selling_price
+	)
+
+Tabela de fatos quantitativos. Referencia a tabela "stage_orders", stages e dimensões em geral
+	`fact_order_quantitative` (
+	  `order_id` --> stage_orders.order_id
+	  `customer_id` --> stage_orders.customer_id
+	  `state_city_id` --> Baseado na chave "stage_orders.state" + "stage_orders.city", referencia "dim_state_city.id_state_city"
+	  `status`--> stage_orders.status
+	  `order_date_id` --> Baseado na chave yyyyMMdd formada pela coluna "stage_orders.order_date", referencia-se "dim_date.id_date"
+	  `last_update_id` --> Baseado na chave yyyyMMdd formada pela coluna "stage_orders.order_date", referencia-se "dim_date.id_date"
+	  `shipping_price` --> stage_orders.shipping_price
+	  `total` --> stage_orders.total
+	)
+	  
+	`fact_order_qualitative` (
+		id --> stage_orderitem.id
+		order_id --> stage_orderitem.order_item
+		product_id --> stage_orderitem.product_id
+		state_city_id --> Pela coluna "stage_orderitem.order_id", referencia-se a chave "stage_orders.state" + "stage_orders.city" da tabela "stage_orders". A partir disto, referencia-se "dim_state_city.id_state_city"
+		order_date_id --> Pela coluna "stage_orderitem.order_id", referencia-se coluna "stage_orders.order_date" A partir disto, referencia-se "dim_date.id_date"
+		selling_price --> stage_order_item.selling_price
+	);
+
+
+Quanto ao Stream do Kinesis, a tabela a seguir serve como repositório para as mensagens capturadas. Não há tratativa de dados relacionados aos dados nulos, ou seja, eles vão aparecer am algumas colunas de acordo com o tipo de mensagem para o dado registro.
+Observação: Nem todos os atributos das mensagens foram mapeados para a tabela.
+
+	`fact_mail` (
+		event_id --> atributo event_id do JSON
+		event_type --> atributo event_type do JSON
+		`datetime` --> atributo datetime do JSON
+		`date` --> Criada uma chave, a partir da coluna "datetime" no formato yyyyMMdd
+		device --> atributo devides do JSON
+		os --> atributo os do JSON
+		email --> atributo email do JSON
+		`subject` --> atributo subject do JSON
+		partner --> atributo partner do JSON
+	)
