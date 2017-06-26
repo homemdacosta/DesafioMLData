@@ -33,7 +33,7 @@ O cosumidor, ao ser executado, consumirá o stream, enquanto estiver rodando, ar
    1. Unzip o arquivo ```"AmazonKinesisConsumer.zip"```
    * Se necessário, ajustar arquivos de conexão com banco e stream:
       * Editar o arquivo AmazonKinesisConsumer\App.config para configurar:
-        * Nome do Kinesis Stream
+        * Nome do Kinesis Stream:
             ```xml <add key="KinesisStreamName" value="big-data-analytics-desafio"/>```
         * Arquivo texto para ser processado pela aplicação Java (o diretório e o arquivo, em branco, devem ser criados):
             ```xml <add key="FilePath"  value="c:\\raw-data\\storage.txt"/> ```
@@ -56,13 +56,22 @@ O cosumidor, ao ser executado, consumirá o stream, enquanto estiver rodando, ar
 Para consumir os arquivos há duas opções:
    1. Conectar-se no banco de dados e executar queries SQL diretamente na database.
    2. Utilizar a API disponibilizada para consumir as respostas json
-      * Seguem os mapeamentos de cada um dos mapeamentos criados e suas explicações:
-      | Mapeamento        | Are           | Cool  |
-      | ------------- |:-------------:| -----:| 
-      TODO
+      * Seguem os mapeamentos  criados e suas explicações:
+      ```localhost:8080/brand``` -->  Lista todas as marcas da base.
+      ```localhost:8080/product``` -->  Lista todos os produtos.
+      ```localhost:8080/seller``` -->  Lista todos os vendedores. 
+      ```localhost:8080/statecity``` -->  Lista todas as localizações (estado e cidade).
+      ```localhost:8080/Fact-Order-Qualitative``` -->  Lista todos os pedidos de maneira qualitado, ou seja, descreve os produtos que compõem o pedido. Referência à tabela fact_order_qualitative.
+      ```localhost:8080/Fact-Order-Qualitative/id/*{id}*``` -->  Lista todas os dados qualitativos sobre um order_id específico.
+      ```localhost:8080/Fact-Order-Quantitative/all``` -->  Lista todas os dados relativos aos pedidos, como frete e custo total. Referencia à tabela fact_order_quantitative.
+      ```localhost:8080/Fact-Order-Quantitative/status?status=*<status>*``` -->  Lista todos os pedidos com o status igual ao informado.
+      ```localhost:8080/Fact-Order-Quantitative/sumByOrderDate``` -->  Lista informações agregadas, por dia, de soma total de frete e total dos pedidos.
+      ```localhost:8080/Fact-Order-Quantitative/sumByOrderDate/*{id}*``` -->  Lista informações agregadas, por dia, de soma total de frete e total de um determinado dia.
+      ```localhost:8080/Fact-Mail/``` -->  Lista todas os dados coletados do stream Kinesis.
+      ```localhost:8080/Fact-Mail/event/*{type}*``` -->  Lista todos os dados coletados do stream Kinesis para um determinado do tipo requerido.
 
 # Documentação do ETL
-##TODO
+Para documentar o ETL de maneira simples, no documento XXXX encontrará a relação entre coluna do schema gerado para com a sua fonte de dados específica.
 
 # Autor
 Rodrigo Homem da Costa
