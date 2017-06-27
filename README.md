@@ -65,8 +65,8 @@ Para consumir os arquivos há duas opções:
       ```localhost:8080/Fact-Order-Qualitative/id/*{id}*``` -->  Lista todos os dados qualitativos sobre um order_id específico.</br>
       ```localhost:8080/Fact-Order-Quantitative/all``` -->  Lista todos os dados relativos aos pedidos, como frete e custo total. Referência à tabela fact_order_quantitative.</br>
       ```localhost:8080/Fact-Order-Quantitative/status?status=*<status>*``` -->  Lista todos os pedidos com o status igual ao informado.</br>
-      ```localhost:8080/Fact-Order-Quantitative/sumByOrderDate``` -->  Lista informações agregadas, por dia, de soma total de frete e total dos pedidos.</br>
-      ```localhost:8080/Fact-Order-Quantitative/sumByOrderDate/*{id}*``` -->  Lista informações agregadas, por dia, de soma total de frete e total de um determinado dia.</br>
+      ```localhost:8080/Fact-Order-Quantitative/sumByOrderDate``` -->  Exemplo de como a API pode gerar métricas previamente calculadas. Lista informações agregadas, por dia, de soma total de frete e total dos pedidos.</br>
+      ```localhost:8080/Fact-Order-Quantitative/sumByOrderDate/*{id}*``` -->  Exemplo de como a API pode gerar métricas previamente calculadas. Lista informação agregada, por dia, de soma total de frete e total de um determinado dia.</br>
       ```localhost:8080/Fact-Mail/``` -->  Lista todas os dados coletados do stream Kinesis.</br>
       ```localhost:8080/Fact-Mail/event/*{type}*``` -->  Lista todos os dados coletados do stream Kinesis para um determinado do tipo requerido.</br>
 
