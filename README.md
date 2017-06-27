@@ -21,7 +21,7 @@ As instruções a seguir o guiarão, passo a passo, no deploy e configuração d
       * Ao executá-lo o usuário `integration/integration` será criado para suprir o processo de ETL.
 
 ## Executando o ETL para extração de dados do MySQL fonte:
-> O processo de ETL, precisa que o usuário *integration exista no banco (conforme criado pelo script de criação do schema)
+> O processo de ETL, precisa que o usuário *integration* exista no banco (conforme criado pelo script de criação do schema)
    1. Unzip `"ETL_package.zip"`
    2. Execute os seguintes arquivos:
       * `"Job Designs\ETL_Full\ETL_Full_run.bat"` - Fará o ETL das tabelas dimensão e staging
@@ -56,7 +56,7 @@ O consumidor, ao ser executado, consumirá o stream, enquanto estiver rodando, a
 Para consumir os arquivos há duas opções:
    1. Conectar-se no banco de dados e executar queries SQL diretamente na database.
    2. Utilizar a API disponibilizada para consumir as respostas json
-      * Seguem os mapeamentos  criados e suas explicações:
+      * Seguem os mapeamentos  criados e suas explicações:</br>
       ```localhost:8080/brand``` -->  Lista todas as marcas da base.</br>
       ```localhost:8080/product``` -->  Lista todos os produtos.</br>
       ```localhost:8080/seller``` -->  Lista todos os vendedores.</br>
