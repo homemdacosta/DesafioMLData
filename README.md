@@ -1,13 +1,13 @@
 # Desafio Magazine Luiza
-Desafio para consumir dados de duas fonte e disponibilizar os dados para consumo.
+Desafio para consumir dados de duas fontes e disponibilizar os dados para consumo.
 
 ## Tecnologias utilizadas
-O processo utiliza as seguintes tecnoclogias:
+O processo utiliza as seguintes tecnologias:
 * MySQL - para persistência de dados
-* Java - para ETL e dispobibilização de dados
+* Java - para ETL e disponibilização de dados
 * .NET - para consumo de dados do Kinesis stream
 
-# Prerequisitos:
+# Pré-requisitos:
 Softwares necessários para execução dos passos:
 * Java 7
 * MySQL
@@ -21,14 +21,14 @@ As instruções a seguir o guiarão, passo a passo, no deploy e configuração d
       * Ao executá-lo o usuário `integration/integration` será criado para suprir o processo de ETL.
 
 ## Executando o ETL para extração de dados do MySQL fonte:
-> O processo de ETL, precisa que o usuário integration exista no banco (conforme criado pelo script de criação do schema)
+> O processo de ETL, precisa que o usuário *integration exista no banco (conforme criado pelo script de criação do schema)
    1. Unzip `"ETL_package.zip"`
    2. Execute os seguintes arquivos:
-      * `"Job Designs\ETL_Full\ETL_Full_run.bat"` - Populará as tabelas dimensão
-      * `"Job Designs\FactTables\FactTables_run.bat"` - Populará as tabelas fato
+      * `"Job Designs\ETL_Full\ETL_Full_run.bat"` - Fará o ETL das tabelas dimensão e staging
+      * `"Job Designs\FactTables\FactTables_run.bat"` - Fará o ETL das tabelas fato
 
 ## Consumir Kinesis stream:
-O cosumidor, ao ser executado, consumirá o stream, enquanto estiver rodando, armazenando o que captura em um arquivo (por padrão `c:\raw-data\storage.txt`). Esse arquivo será consumido, posteriormente, por um processador que persistirá seu contúdo no banco MySQL.
+O consumidor, ao ser executado, consumirá o stream, enquanto estiver rodando, armazenando o que captura em um arquivo (por padrão `c:\raw-data\storage.txt`). Esse arquivo será consumido, posteriormente, por um processador que persistirá seu conteúdo no banco MySQL.
 
    1. Unzip o arquivo ```"AmazonKinesisConsumer.zip"```
    * Se necessário, ajustar arquivos de conexão com banco e stream:
@@ -59,11 +59,11 @@ Para consumir os arquivos há duas opções:
       * Seguem os mapeamentos  criados e suas explicações:
       ```localhost:8080/brand``` -->  Lista todas as marcas da base.</br>
       ```localhost:8080/product``` -->  Lista todos os produtos.</br>
-      ```localhost:8080/seller``` -->  Lista todos os vendedores..</br>
+      ```localhost:8080/seller``` -->  Lista todos os vendedores.</br>
       ```localhost:8080/statecity``` -->  Lista todas as localizações (estado e cidade).</br>
       ```localhost:8080/Fact-Order-Qualitative``` -->  Lista todos os pedidos de maneira qualitado, ou seja, descreve os produtos que compõem o pedido. Referência à tabela fact_order_qualitative.</br>
-      ```localhost:8080/Fact-Order-Qualitative/id/*{id}*``` -->  Lista todas os dados qualitativos sobre um order_id específico.</br>
-      ```localhost:8080/Fact-Order-Quantitative/all``` -->  Lista todas os dados relativos aos pedidos, como frete e custo total. Referencia à tabela fact_order_quantitative.</br>
+      ```localhost:8080/Fact-Order-Qualitative/id/*{id}*``` -->  Lista todos os dados qualitativos sobre um order_id específico.</br>
+      ```localhost:8080/Fact-Order-Quantitative/all``` -->  Lista todos os dados relativos aos pedidos, como frete e custo total. Referência à tabela fact_order_quantitative.</br>
       ```localhost:8080/Fact-Order-Quantitative/status?status=*<status>*``` -->  Lista todos os pedidos com o status igual ao informado.</br>
       ```localhost:8080/Fact-Order-Quantitative/sumByOrderDate``` -->  Lista informações agregadas, por dia, de soma total de frete e total dos pedidos.</br>
       ```localhost:8080/Fact-Order-Quantitative/sumByOrderDate/*{id}*``` -->  Lista informações agregadas, por dia, de soma total de frete e total de um determinado dia.</br>
@@ -71,7 +71,7 @@ Para consumir os arquivos há duas opções:
       ```localhost:8080/Fact-Mail/event/*{type}*``` -->  Lista todos os dados coletados do stream Kinesis para um determinado do tipo requerido.</br>
 
 # Documentação do ETL
-Para documentar o ETL de maneira simples, no documento XXXX encontrará a relação entre coluna do schema gerado para com a sua fonte de dados específica.
+Para documentar o ETL de maneira simples, no documento ```ETL_mapping.txt``` encontrará a relação entre coluna do schema gerado para com a sua fonte de dados específica.
 
 # Autor
 Rodrigo Homem da Costa
