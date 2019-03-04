@@ -1,4 +1,4 @@
-# Desafio Magazine Luiza
+# Desafio ML
 Desafio para consumir dados de duas fontes e disponibilizar os dados para consumo.
 
 ## Tecnologias utilizadas
